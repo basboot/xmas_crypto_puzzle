@@ -15,14 +15,14 @@ import pickle
 import os.path
 
 # Replace actual parameters with small values for testing
-n = 11*23 # = 253
-t = 10
-z = 0x13 # (hex)
+# n = 11*23 # = 253
+# t = 10
+# z = 0x13 # (hex)
 
 # compute 2^(2^t) (mod n)
 
-LOGGING_FREQUENCY = 6   # log intermediate result every # iterations
-PERSISTENT_DATA_FILE = "rivest.pkl"
+LOGGING_FREQUENCY = 1000000   # log intermediate result every # iterations
+PERSISTENT_DATA_FILE = "rivest_real.pkl"
 
 
 def save_data(result, i, total_time):
@@ -52,8 +52,6 @@ start_time = timeit.default_timer()
 logging_count = 0
 for i in range(start_i, t):
     result = pow(result, 2, n)
-
-    time.sleep(1)
 
     # Log and save data
     logging_count += 1 # addition is less expensive than modulo
