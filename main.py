@@ -13,16 +13,17 @@ import time
 import timeit
 import pickle
 import os.path
+import math
 
 # Replace actual parameters with small values for testing
-# n = 11*23 # = 253
-# t = 10
-# z = 0x13 # (hex)
+n = 11*23 # = 253
+t = 10
+z = 0x13 # (hex)
 
 # compute 2^(2^t) (mod n)
 
 LOGGING_FREQUENCY = 1000000   # log intermediate result every # iterations
-PERSISTENT_DATA_FILE = "rivest_real.pkl"
+PERSISTENT_DATA_FILE = "rivest_real_test.pkl"
 
 def save_data(result, i, total_time):
     data = {"result": result, "i": i, "total_time": total_time}
@@ -66,13 +67,21 @@ for i in range(start_i, t, STEP):
     if logging_count > LOGGING_FREQUENCY or i + STEP >= t:
         logging_count = 0
         print(f"-----------------------------------------------------")
-        print(f"t = {i+1}, intermediate result = {result}")
+        print(f"t = {i+STEP}, intermediate result = {result}")
         stop_time = timeit.default_timer()
         total_time = time_offset + stop_time - start_time
         print(f"progress = {i / t * 100: .2f}%, current running time = {stop_time - start_time: .2f}s, total time = {total_time: .2f}s")
 
-        save_data(result, i+1, total_time) # increase i, to restart at next iteration with current result
+        save_data(result, i+STEP, total_time) # increase i, to restart at next iteration with current result
 
 print(f"2^(2^{t}) = {result}")
 print(f"{hex(z)} (z) XOR {result} = {hex(z ^ result)}")
+
+decoded_int = z ^ result
+
+byte_size = math.ceil(math.log(decoded_int,2) / 8)
+
+bytes_val = decoded_int.to_bytes(byte_size, 'big')
+
+print("Message: ", bytes_val.decode("utf-8") )
 
