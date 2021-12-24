@@ -27,7 +27,9 @@ for i in range(t):
     logging_count += 1 # addition is less expensive than modulo
     if logging_count == LOGGING_FREQUENCY:
         logging_count = 0
+        print(f"-----------------------------------------------------")
         print(f"t = {i+1}, intermediate result = {result}")
+        print(f"progress = {int((i/t)*10000)/100}%")
 
 print(f"2^(2^{t}) = {result}")
 print(f"{hex(z)} (z) XOR {result} = {hex(z ^ result)}")
