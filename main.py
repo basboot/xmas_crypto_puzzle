@@ -22,8 +22,7 @@ import os.path
 # compute 2^(2^t) (mod n)
 
 LOGGING_FREQUENCY = 1000000   # log intermediate result every # iterations
-PERSISTENT_DATA_FILE = "rivest_real.pkl"
-
+PERSISTENT_DATA_FILE = "rivest_real_optimized.pkl"
 
 def save_data(result, i, total_time):
     data = {"result": result, "i": i, "total_time": total_time}
@@ -50,12 +49,21 @@ result, start_i, time_offset = load_data()
 start_time = timeit.default_timer()
 
 logging_count = 0
-for i in range(start_i, t):
-    result = pow(result, 2, n)
+
+# taking larger steps speeds up the algorithm, but when making steps too large it slows down again
+# optimum seems te be around 8
+STEP = 8
+power_of_two = 2**STEP
+for i in range(start_i, t, STEP):
+    # correct power for final step
+    if i + STEP >= t:
+        power_of_two = 2**(t - i)
+
+    result = pow(result, power_of_two, n)
 
     # Log and save data
-    logging_count += 1 # addition is less expensive than modulo
-    if logging_count == LOGGING_FREQUENCY or i == t - 1:
+    logging_count += STEP # addition is less expensive than modulo
+    if logging_count > LOGGING_FREQUENCY or i + STEP >= t:
         logging_count = 0
         print(f"-----------------------------------------------------")
         print(f"t = {i+1}, intermediate result = {result}")
