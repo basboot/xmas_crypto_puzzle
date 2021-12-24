@@ -22,7 +22,7 @@ import os.path
 # compute 2^(2^t) (mod n)
 
 LOGGING_FREQUENCY = 1000000   # log intermediate result every # iterations
-PERSISTENT_DATA_FILE = "rivest_real_optimized.pkl"
+PERSISTENT_DATA_FILE = "rivest_real.pkl"
 
 def save_data(result, i, total_time):
     data = {"result": result, "i": i, "total_time": total_time}
