@@ -16,9 +16,18 @@ z = 0x13 # (hex)
 
 # compute 2^(2^t) (mod n)
 
+LOGGING_FREQUENCY = 2   # log intermediate result every # iterations
+
 result = 2
+
+logging_count = 0
 for i in range(t):
     result = pow(result, 2, n)
+
+    logging_count += 1 # addition is less expensive than modulo
+    if logging_count == LOGGING_FREQUENCY:
+        logging_count = 0
+        print(f"t = {i+1}, intermediate result = {result}")
 
 print(f"2^(2^{t}) = {result}")
 print(f"{hex(z)} (z) XOR {result} = {hex(z ^ result)}")
