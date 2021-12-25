@@ -74,14 +74,28 @@ for i in range(start_i, t, STEP):
 
         save_data(result, i+STEP, total_time) # increase i, to restart at next iteration with current result
 
-print(f"2^(2^{t}) = {result}")
-print(f"{hex(z)} (z) XOR {result} = {hex(z ^ result)}")
+print(f"2^(2^{t}) =")
+print(f"{result}")
+print()
+print(f"{hex(z)} (z)")
+print("XOR")
+print(f"{result}")
+print("=")
+print(f"{hex(z ^ result)}")
 
+# calculate result
 decoded_int = z ^ result
 
-byte_size = math.ceil(math.log(decoded_int,2) / 8)
+# convert to hex
+decoded_hex = hex(decoded_int)
 
-bytes_val = decoded_int.to_bytes(byte_size, 'big')
+# remove 0x
+decoded_hex = decoded_hex[2:]
 
-print("Message: ", bytes_val.decode("utf-8") )
+decoded_hex = f"0{decoded_hex}"
+
+print(decoded_hex)
+
+# Hint: 11111.....11111
+
 
