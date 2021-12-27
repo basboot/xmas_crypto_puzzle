@@ -92,9 +92,13 @@ decoded_hex = hex(decoded_int)
 # remove 0x
 decoded_hex = decoded_hex[2:]
 
+print()
+print("Decoded message (hex)")
 decoded_hex = f"0{decoded_hex}"
 
 print(decoded_hex)
+
+print()
 
 # Hint:
 #
@@ -109,42 +113,42 @@ print(decoded_hex)
 #
 # ?
 
-# Guess: binary number, size fixed, dots can be anything
-high_value = 31 << 10
-low_value = 31 << 0
-
-for i in range(32):
-    possible_solution = high_value + i << 5 + low_value
-    remainder = n % possible_solution
-    if remainder == 0:
-        print("Dots can be anything binary found a solution")
-        print(f"FOUND: {possible_solution}")
-        break
-
-# Guess: decimal number, size fixed, dots can be anything
-high_value = 111110000000000
-low_value = 11111
-
-for i in range(100000):
-    possible_solution = high_value + i * 100000 + low_value
-    remainder = n % possible_solution
-    if remainder == 0:
-        print("Dots can be anything decimal found a solution")
-        print(f"FOUND: {possible_solution}")
-        break
-
-# Guess: binary number, size not fixed, all 1's
-possible_solution = 1
-for i in range(1500):
-    possible_solution = possible_solution * 2 + 1
-    if possible_solution > n:
-        print("> n, all 1's binary")
-        break
-    remainder = n % possible_solution
-    if remainder == 0:
-        print("All 1's binary found a solution")
-        print(f"FOUND: {possible_solution}")
-        break
+# # Guess: binary number, size fixed, dots can be anything
+# high_value = 31 << 10
+# low_value = 31 << 0
+#
+# for i in range(32):
+#     possible_solution = high_value + i << 5 + low_value
+#     remainder = n % possible_solution
+#     if remainder == 0:
+#         print("Dots can be anything binary found a solution")
+#         print(f"FOUND: {possible_solution}")
+#         break
+#
+# # Guess: decimal number, size fixed, dots can be anything
+# high_value = 111110000000000
+# low_value = 11111
+#
+# for i in range(100000):
+#     possible_solution = high_value + i * 100000 + low_value
+#     remainder = n % possible_solution
+#     if remainder == 0:
+#         print("Dots can be anything decimal found a solution")
+#         print(f"FOUND: {possible_solution}")
+#         break
+#
+# # Guess: binary number, size not fixed, all 1's
+# possible_solution = 1
+# for i in range(1500):
+#     possible_solution = possible_solution * 2 + 1
+#     if possible_solution > n:
+#         print("> n, all 1's binary")
+#         break
+#     remainder = n % possible_solution
+#     if remainder == 0:
+#         print("All 1's binary found a solution")
+#         print(f"FOUND: {possible_solution}")
+#         break
 
 # Guess: decimal number, size not fixed, all 1's
 possible_solution = 1
@@ -156,44 +160,44 @@ for i in range(1000):
     remainder = n % possible_solution
     if remainder == 0:
         print("All 1's decimal found a solution")
-        print(f"FOUND: {possible_solution}")
+        # print(f"FOUND: {possible_solution}")
         break
 
 
-# Guess: decimal number, size not fixed, dots can be anything
-low_value = 11111
-high_value = 11111
+# # Guess: decimal number, size not fixed, dots can be anything
+# low_value = 11111
+# high_value = 11111
+#
+# for i in range(1, 10000):
+#     mid_size = math.ceil(math.log(i, 10))
+#     possible_solution = high_value * (10 ** (mid_size + 5)) + i * 100000 + low_value
+#     if possible_solution > n:
+#         print("> n, break")
+#         break
+#     remainder = n % possible_solution
+#     if remainder == 0:
+#         print("Dots can be anything and any length decimal found a solution")
+#         print(f"FOUND: {possible_solution}")
+#         break
+#
+# # Guess: binary number, size not fixed, dots can be anything
+# low_value = 31
+# high_value = 31
+#
+# for i in range(1, 1000):
+#     mid_size = math.ceil(math.log(i, 2))
+#     possible_solution = (high_value << (mid_size + 6)) + (i << 5) + low_value
+#     if possible_solution > n:
+#         print("> n, break")
+#         break
+#     remainder = n % possible_solution
+#     if remainder == 0:
+#         print("Dots can be anything and any length binary found a solution")
+#         print(f"FOUND: {possible_solution}")
+#         break
 
-for i in range(1, 10000):
-    mid_size = math.ceil(math.log(i, 10))
-    possible_solution = high_value * (10 ** (mid_size + 5)) + i * 100000 + low_value
-    if possible_solution > n:
-        print("> n, break")
-        break
-    remainder = n % possible_solution
-    if remainder == 0:
-        print("Dots can be anything and any length decimal found a solution")
-        print(f"FOUND: {possible_solution}")
-        break
 
-# Guess: binary number, size not fixed, dots can be anything
-low_value = 31
-high_value = 31
-
-for i in range(1, 1000):
-    mid_size = math.ceil(math.log(i, 2))
-    possible_solution = (high_value << (mid_size + 6)) + (i << 5) + low_value
-    if possible_solution > n:
-        print("> n, break")
-        break
-    remainder = n % possible_solution
-    if remainder == 0:
-        print("Dots can be anything and any length binary found a solution")
-        print(f"FOUND: {possible_solution}")
-        break
-
-
-first_prime = 11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+first_prime = possible_solution # 11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
 second_prime = n // first_prime # 475420437734698220747368027166749382927701417016557193662268716376935476241
 
 print("First (p)")
@@ -203,3 +207,5 @@ print(second_prime)
 
 # 360th Fibonacci Number
 # https://www.thelearningpoint.net/home/mathematics/fibonacci-numbers/fibonacci-numbers-360th
+
+
