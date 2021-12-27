@@ -38,6 +38,29 @@ def load_data():
     file.close()
     return data["result"], data["i"], data["total_time"]
 
+def print_decoded_message(message, key):
+    # # split z and the key (result) into bytes
+
+    z_bytes = []
+    z_temp = message
+    while z_temp > 0:
+        z_bytes.insert(0, (z_temp & 0xff))
+        z_temp = z_temp >> 8
+
+    key_bytes = []
+    key_temp = key
+    while key_temp > 0:
+        key_bytes.insert(0, (key_temp & 0xff))
+        key_temp = key_temp >> 8
+
+    # repeat left to right
+    # for i in range(len(z_bytes)):
+    #     print(chr(z_bytes[i] ^ key_bytes[(i+0) % len(key_bytes)]), end='')
+
+    # repeat right to left
+    for i in range(len(z_bytes)):
+        print(chr(z_bytes[i] ^ key_bytes[(i+(len(z_bytes) % len(key_bytes))) % len(key_bytes)]), end='')
+
 # Create data file if not exists
 if not os.path.isfile(PERSISTENT_DATA_FILE):
     # initial data
@@ -97,6 +120,8 @@ print("Decoded message (hex)")
 decoded_hex = f"0{decoded_hex}"
 
 print(decoded_hex)
+
+print_decoded_message(z, result)
 
 print()
 
@@ -225,7 +250,20 @@ z = 5858369496785771956867204611685812022458761811982234061818900167839310221899
 
 # Hints: https://crypto.stanford.edu/~dabo/cs255/handouts/numth2.pdf
 
+# If N = pq, then phi(N) = (p-1)(q-1) where pgi(n) denotes the number of elements in Z*_N
+phi = (p-1) * (q-1)
 
+print()
+print(f"phi(N) = {phi}")
 
+# a^phi(N) = 1 mod N, so 2^(2^t) = 1*1*...*1*2^(2^t mod phi(N))
+t_mod = pow(2, t, phi)
+print(f"t' = {t_mod}")
 
+result = pow(2, t_mod, n)
+
+print(f"2^t' =")
+print(f"{result}")
+
+print_decoded_message(z, result)
 
