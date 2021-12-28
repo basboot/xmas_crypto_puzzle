@@ -51,6 +51,7 @@ def print_decoded_message(message, key):
     key_temp = key
     while key_temp > 0:
         key_bytes.insert(0, (key_temp & 0xff))
+        print(key_temp & 0xff, hex(key_temp & 0xff))
         key_temp = key_temp >> 8
 
     # repeat left to right
@@ -58,8 +59,14 @@ def print_decoded_message(message, key):
     #     print(chr(z_bytes[i] ^ key_bytes[(i+0) % len(key_bytes)]), end='')
 
     # repeat right to left
+    gap = len(z_bytes) % len(key_bytes)
+    offset = len(key_bytes) - gap
     for i in range(len(z_bytes)):
-        print(chr(z_bytes[i] ^ key_bytes[(i+(len(z_bytes) % len(key_bytes))) % len(key_bytes)]), end='')
+        print(chr(z_bytes[i] ^ key_bytes[(i+offset) % len(key_bytes)]), end='')
+
+    print()
+    print()
+    print(f"key {len(key_bytes)} z {len(z_bytes)} repeat {len(z_bytes) / len(key_bytes)}")
 
 # Create data file if not exists
 if not os.path.isfile(PERSISTENT_DATA_FILE):
