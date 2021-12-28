@@ -49,24 +49,27 @@ def print_decoded_message(message, key):
 
     key_bytes = []
     key_temp = key
+    # spit key into half bytes to shift
     while key_temp > 0:
-        key_bytes.insert(0, (key_temp & 0xff))
-        print(key_temp & 0xff, hex(key_temp & 0xff))
-        key_temp = key_temp >> 8
+        key_bytes.insert(0, (key_temp & 0xf))
+        #print(key_temp & 0xf, hex(key_temp & 0xf))
+        key_temp = key_temp >> 4
 
     # repeat left to right
-    # for i in range(len(z_bytes)):
-    #     print(chr(z_bytes[i] ^ key_bytes[(i+0) % len(key_bytes)]), end='')
+    for i in range(len(z_bytes)):
+        # build key byte from two half bytes
+        key_byte = (key_bytes[(2*i+0) % len(key_bytes)] << 4) | (key_bytes[(2*i+1) % len(key_bytes)])
+        print(chr(z_bytes[i] ^ key_byte), end='')
 
     # repeat right to left
-    gap = len(z_bytes) % len(key_bytes)
-    offset = len(key_bytes) - gap
-    for i in range(len(z_bytes)):
-        print(chr(z_bytes[i] ^ key_bytes[(i+offset) % len(key_bytes)]), end='')
+    # gap = len(z_bytes) % len(key_bytes)
+    # offset = len(key_bytes) - gap
+    # for i in range(len(z_bytes)):
+    #     print(chr(z_bytes[i] ^ key_bytes[(i+offset) % len(key_bytes)]), end='')
 
-    print()
-    print()
-    print(f"key {len(key_bytes)} z {len(z_bytes)} repeat {len(z_bytes) / len(key_bytes)}")
+    # print()
+    # print()
+    # print(f"key {len(key_bytes)} z {len(z_bytes)} repeat {len(z_bytes) / len(key_bytes)}")
 
 # Create data file if not exists
 if not os.path.isfile(PERSISTENT_DATA_FILE):
@@ -272,5 +275,7 @@ result = pow(2, t_mod, n)
 print(f"2^t' =")
 print(f"{result}")
 
+print("Result:")
 print_decoded_message(z, result)
+
 
